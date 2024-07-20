@@ -5,18 +5,6 @@
 
         <br/><br/>
         
-        <?php
-        if (isset($_SESSION['update'])) {
-            echo $_SESSION['update'];
-            unset($_SESSION['update']);
-        }
-
-        if (isset($_SESSION['delete'])) {
-            echo $_SESSION['delete'];
-            unset($_SESSION['delete']);
-        }
-        ?>
-        
         <br/><br/>
 
         <a href="#" class="btn-primary">Add Order</a>
