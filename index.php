@@ -5,8 +5,17 @@
             <div class="heroleft">
                 <h1>Are <span class="red">you</span> starving?</h1>
                 <p><span class="cursive">Don't wait!</span> Within a few clicks, find meals that are accessible near you</p>
-                <button>Order Now</button>    
+                <a href="order.php" class="button">Order Now</a>    
             </div>
+        </div>
+    </section>
+
+    <section class="about_us section">
+        <div class="container">
+            <h2>Why Choose Us</h2>
+            <p>Fresh ingredients, fast delivery, and flavors you will remember.</p>
+            <p>We focus on quality meals, friendly service, and a menu that fits every craving.</p>
+            <a href="menu.php" class="button">Explore Menu</a>
         </div>
     </section>
     
@@ -37,7 +46,7 @@
 
     <section id="menubtn" class="see-menu">
         <div class="menubtn">
-            <a href="menu.html" class="button foodiebtn">See Menu</a>
+            <a href="menu.php" class="button foodiebtn">See Menu</a>
         </div>
     </section>
 

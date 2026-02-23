@@ -31,6 +31,11 @@
             $sql = "SELECT * FROM tbl_order ORDER BY id DESC";
             $res = mysqli_query($conn, $sql);
             $sn = 1; // Serial Number
+            $has_items_table = false;
+            $res_table = mysqli_query($conn, "SHOW TABLES LIKE 'tbl_order_item'");
+            if ($res_table && mysqli_num_rows($res_table) > 0) {
+                $has_items_table = true;
+            }
 
             if ($res == TRUE) {
                 $count = mysqli_num_rows($res); // Get the number of rows
@@ -64,12 +69,24 @@
                             <td><?php echo $customer_email; ?></td>
                             <td><?php echo $customer_address; ?></td>
                             <td>
-                                <a href="<?php echo SITEURL; ?>admin/update-order.php?id=<?php echo $id; ?>" class="btn-secondary">Update Order</a>
-                                <a href="<?php echo SITEURL; ?>admin/delete-order.php?id=<?php echo $id; ?>" class="btn-del">Delete Order</a>
+                                <a href="<?php echo SITEURL; ?>admin/order-detail.php?id=<?php echo $id; ?>" class="btn-secondary">View Details</a>
                             </td>
                         </tr>
 
                         <?php
+                        if ($has_items_table) {
+                            $sql_items = "SELECT food, price, qty, total FROM tbl_order_item WHERE order_id=$id";
+                            $res_items = mysqli_query($conn, $sql_items);
+                            if ($res_items && mysqli_num_rows($res_items) > 0) {
+                                echo "<tr><td colspan='12'><strong>Items:</strong> ";
+                                $parts = [];
+                                while ($item = mysqli_fetch_assoc($res_items)) {
+                                    $parts[] = $item['food'] . " x " . $item['qty'] . " ($" . $item['total'] . ")";
+                                }
+                                echo implode(" | ", $parts);
+                                echo "</td></tr>";
+                            }
+                        }
                     }
                 } else {
                     // No orders available

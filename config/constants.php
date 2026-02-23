@@ -15,22 +15,20 @@ if (!defined('DB_USERNAME')) {
     define('DB_USERNAME', 'root');
 }
 if (!defined('DB_PASSWORD')) {
-    define('DB_PASSWORD', '');
+    define('DB_PASSWORD', '1234');
 }
 if (!defined('DB_NAME')) {
     define('DB_NAME', 'food-order');
 }
+if (!defined('DB_PORT')) {
+    define('DB_PORT', '3307');
+}
 
 // Database connection
-$conn = mysqli_connect(LOCALHOST, DB_USERNAME, DB_PASSWORD);
+$conn = mysqli_connect(LOCALHOST, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_PORT);
 
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$db_select = mysqli_select_db($conn, DB_NAME);
-
-if (!$db_select) {
-    die("Database selection failed: " . mysqli_error($conn));
-}
 ?>

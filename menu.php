@@ -2,13 +2,37 @@
 include('partials.front/menu.php');
 ?>
 
+<?php
+$category_id = isset($_GET['category_id']) ? (int) $_GET['category_id'] : 0;
+$category_title = '';
+
+if ($category_id > 0) {
+    $sql_cat = "SELECT title FROM tbl_category WHERE id=$category_id AND active='Yes'";
+    $res_cat = mysqli_query($conn, $sql_cat);
+    if ($res_cat && mysqli_num_rows($res_cat) === 1) {
+        $row_cat = mysqli_fetch_assoc($res_cat);
+        $category_title = $row_cat['title'];
+    } else {
+        $category_id = 0;
+    }
+}
+?>
+
 <section class="food-menu">
     <div class="container">
-        <h2 class="text-center">Food Menu</h2>
+        <?php if ($category_id > 0 && $category_title !== '') { ?>
+            <h2 class="text-center">Category: <?php echo $category_title; ?></h2>
+        <?php } else { ?>
+            <h2 class="text-center">Food Menu</h2>
+        <?php } ?>
 
         <?php
-        // SQL Query to get all active food items
-        $sql = "SELECT * FROM tbl_food WHERE active='Yes'";
+        // SQL Query to get active food items (optionally by category)
+        if ($category_id > 0) {
+            $sql = "SELECT * FROM tbl_food WHERE active='Yes' AND category_id=$category_id";
+        } else {
+            $sql = "SELECT * FROM tbl_food WHERE active='Yes'";
+        }
         $res = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($res);
 
@@ -41,7 +65,16 @@ include('partials.front/menu.php');
                         </p>
                         <br>
 
-                        <a href="order.php?food_id=<?php echo $id; ?>" class="btn btn-primary">Order Now</a>
+                        <button
+                            type="button"
+                            class="btn btn-primary add-to-cart"
+                            data-id="<?php echo $id; ?>"
+                            data-title="<?php echo htmlspecialchars($title, ENT_QUOTES); ?>"
+                            data-price="<?php echo $price; ?>"
+                        >
+                            Add to Cart
+                        </button>
+                        <a href="order.php?food_id=<?php echo $id; ?>" class="btn btn-secondary">Order Now</a>
                     </div>
                 </div>
                 <?php
